@@ -29,7 +29,8 @@
      */
     struct src_icon_t {
         const char src_name[ 32 ];
-        const lv_img_dsc_t *img;
+        const lv_img_dsc_t *img_day;
+        const lv_img_dsc_t *img_night
     };
 
     void bluetooth_message_tile_setup( void );
