@@ -118,15 +118,15 @@ LV_IMG_DECLARE(message_96px);
     LV_IMG_DECLARE(owm50n_64px);
 
     src_icon_t src_icon[] = {
-        { "Telegram", &telegram_96px },
-        { "WhatsApp", &whatsapp_96px },
-        { "K-9 Mail", &k9mail_96px },
-        { "Gmail", &email_96px },
-        { "E-Mail", &message_96px },
-        { "OsmAnd", &osmand_96px },
-        { "YouTube", &youtube_96px },
-        { "Instagram", &instagram_96px },
-        { "Tinder", &tinder_96px },
+        { "Telegram", &telegram_96px, &telegram_96px },
+        { "WhatsApp", &whatsapp_96px, &whatsapp_96px },
+        { "K-9 Mail", &k9mail_96px, &k9mail_96px },
+        { "Gmail", &email_96px, &email_96px  },
+        { "E-Mail", &message_96px, &message_96px  },
+        { "OsmAnd", &osmand_96px, &osmand_96px },
+        { "YouTube", &youtube_96px, &youtube_96px },
+        { "Instagram", &instagram_96px, &instagram_96px },
+        { "Tinder", &tinder_96px, &tinder_96px },
         { "clear sky", &owm01d_64px, &owm01n_64px },
         { "few clouds", &owm02d_64px, &owm02n_64px },
         { "scattered clouds", &owm03d_64px, &owm03n_64px },
@@ -191,14 +191,14 @@ LV_IMG_DECLARE(message_96px);
 #elif defined( MID_THEME )
     #define default_msg_icon        &message_64px
 
-    LV_IMG_DECLARE(telegram_32px);
-    LV_IMG_DECLARE(whatsapp_32px);
-    LV_IMG_DECLARE(k9mail_32px);
-    LV_IMG_DECLARE(email_32px);
-    LV_IMG_DECLARE(osmand_32px);
-    LV_IMG_DECLARE(youtube_32px);
-    LV_IMG_DECLARE(instagram_32px);
-    LV_IMG_DECLARE(tinder_32px);
+    LV_IMG_DECLARE(telegram_64px);
+    LV_IMG_DECLARE(whatsapp_64px);
+    LV_IMG_DECLARE(k9mail_64px);
+    LV_IMG_DECLARE(email_64px);
+    LV_IMG_DECLARE(osmand_64px);
+    LV_IMG_DECLARE(youtube_64px);
+    LV_IMG_DECLARE(instagram_64px);
+    LV_IMG_DECLARE(tinder_64px);
     LV_IMG_DECLARE(owm01d_64px);
     LV_IMG_DECLARE(owm02d_64px);
     LV_IMG_DECLARE(owm03d_64px);
@@ -219,16 +219,16 @@ LV_IMG_DECLARE(message_96px);
     LV_IMG_DECLARE(owm50n_64px);
 
     src_icon_t src_icon[] = {
-        { "Telegram", &telegram_32px },
-        { "WhatsApp", &whatsapp_32px },
-        { "K-9 Mail", &k9mail_32px },
-        { "Gmail", &email_32px },
-        { "E-Mail", &message_32px },
-        { "OsmAnd", &osmand_32px },
-        { "YouTube", &youtube_32px },
-        { "Instagram", &instagram_32px },
-        { "Tinder", &tinder_32px },
-                { "clear sky", &owm01d_64px, &owm01n_64px },
+        { "Telegram", &telegram_64px, &telegram_64px },
+        { "WhatsApp", &whatsapp_64px, &whatsapp_64px },
+        { "K-9 Mail", &k9mail_64px, &k9mail_64px },
+        { "Gmail", &email_64px, &email_64px  },
+        { "E-Mail", &message_64px, &message_64px  },
+        { "OsmAnd", &osmand_64px, &osmand_64px },
+        { "YouTube", &youtube_64px, &youtube_64px },
+        { "Instagram", &instagram_64px, &instagram_64px },
+        { "Tinder", &tinder_64px, &tinder_64px },
+        { "clear sky", &owm01d_64px, &owm01n_64px },
         { "few clouds", &owm02d_64px, &owm02n_64px },
         { "scattered clouds", &owm03d_64px, &owm03n_64px },
         { "overcast clouds", &owm04d_64px, &owm04n_64px },
@@ -321,16 +321,16 @@ LV_IMG_DECLARE(message_96px);
     
 
     src_icon_t src_icon[] = {
-        { "Telegram", &telegram_32px },
-        { "WhatsApp", &whatsapp_32px },
-        { "K-9 Mail", &k9mail_32px },
-        { "Gmail", &email_32px },
-        { "E-Mail", &message_32px },
-        { "OsmAnd", &osmand_32px },
-        { "YouTube", &youtube_32px },
-        { "Instagram", &instagram_32px },
-        { "Tinder", &tinder_32px },
-                { "clear sky", &owm01d_64px, &owm01n_64px },
+        { "Telegram", &telegram_32px, &telegram_32px },
+        { "WhatsApp", &whatsapp_32px, &whatsapp_32px  },
+        { "K-9 Mail", &k9mail_32px, &k9mail_32px },
+        { "Gmail", &email_32px, &email_32px },
+        { "E-Mail", &message_32px, &message_32px },
+        { "OsmAnd", &osmand_32px, &osmand_32px },
+        { "YouTube", &youtube_32px, &youtube_32px },
+        { "Instagram", &instagram_32px, &instagram_32px },
+        { "Tinder", &tinder_32px, &tinder_32px },
+        { "clear sky", &owm01d_64px, &owm01n_64px },
         { "few clouds", &owm02d_64px, &owm02n_64px },
         { "scattered clouds", &owm03d_64px, &owm03n_64px },
         { "overcast clouds", &owm04d_64px, &owm04n_64px },
@@ -600,7 +600,7 @@ void bluetooth_message_enable( void ) {
 
 const lv_img_dsc_t *bluetooth_message_find_img( const char * src_name ) {
     /*
-     * search for the right src icon
+     * search for the right src icon, and test case for night
      */
  if ("%02d", h > 7) {
     for ( int i = 0; src_icon[ i ].img_night != NULL; i++ ) {
