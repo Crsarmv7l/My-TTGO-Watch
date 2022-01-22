@@ -24,13 +24,12 @@ Will not work unless implimented on Amazfish:
 - Navigation
 
 To Do:
-- Trigger for Night icons with Weather Widget
-- Due to the const char setup for icon sourcing I piggybacked on, some of the longer descriptions are just too long and needed to be shortened. Hopefully that wont cause issues but it needs further testing.
+- Trigger for Night icons with Weather Widget (in progress)
 - Optimize BLE for Amazfish weather. Some sort of timer to set BLE to "Stay on" for a certain amount of time, then go back to just wakeups. Should help battery life since it is only 10H with "stay on" enabled which keeps it out of deep sleep.
 
-All other features on the watch side are untouched and remain the same as with Sharandac's firmware.
+All other features on the watch side are untouched and remain the same as with Sharandac's firmware (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
 
-DISCLAIMER: This is very much a work in progress and my coding isn't fantastic. I take no responsiility for any damage caused by you running this firmware. It shouldn't damage anyhting, but if you are concerned feel free to go through my code. I run this firmware myself on a TTGO T-watch 2020 v1 with Amazfish 2.0.3 on SailfishOS 4.2.
+DISCLAIMER: This is very much a work in progress and my coding isn't fantastic or elegant. I take no responsiility for any damage caused by you running this firmware. It shouldn't damage anything, but if you are concerned feel free to go through my code. I run this firmware myself on a TTGO T-watch 2020 v1 with Amazfish 2.0.3 on SailfishOS 4.2.
 
 # My-TTGO-Watch
 
