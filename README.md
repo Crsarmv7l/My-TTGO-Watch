@@ -1,4 +1,4 @@
-CURRENTLY BROKEN (testing in progress)
+Working with night/day weather widgit icons
 
 A fork of Sharandac's excellent firmware. This implimentation is adapted to work with Adam Piggz's Amazfish companion app on linux phone distros via the Bangle.js device type. Specifically by utilizing UART UUID's, the Bangle.js name, and expected services. On the Amazfish side the Bangle.js name along with service discovery returns pinetimejfdevice (as it should for Bangle.js), and it works through devicefactory.cpp.
 
@@ -27,8 +27,8 @@ Will not work unless implimented on Amazfish:
 - Navigation
 
 To Do:
-- Trigger for Night icons with Weather Widget (in progress)
 - Optimize BLE for Amazfish weather. Some sort of timer to set BLE to "Stay on" for a certain amount of time, then go back to just wakeups. Should help battery life since it is only 10H with "stay on" enabled which keeps it out of deep sleep.
+- Optimize message format for the way Amazfish sends messages
 
 All other features on the watch side are untouched and remain the same as with Sharandac's firmware (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
 
