@@ -21,6 +21,7 @@ Currently Supported Features:
 
 Can Work, but doesn't:
 - Music Control IS implimented in Amazfish, but I have little interest in fixing it to work. Maybe in the future.
+- Step sync via message (dunno why it isn't working really)
 
 Will not work unless implimented on Amazfish:
 - Navigation
