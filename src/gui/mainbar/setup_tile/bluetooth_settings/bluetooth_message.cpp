@@ -814,13 +814,13 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 */
                 int temperature = doc["temp"];
                 const char temp_str[128] = "";
-                snprintf( (char*)temp_str, sizeof( temp_str ), " %d °C and %s", temperature - 273, doc["txt"].as<String>().c_str() );
+                snprintf( (char*)temp_str, sizeof( temp_str ), " %d°F and %s", 1.8*(temperature - 273) + 32, doc["txt"].as<String>().c_str() );
                 lv_label_set_text( bluetooth_message_msg_label, temp_str );
                 /*
                 * Set Weather widget label as temp, align label with resolved weather icon, set indicator to off. Widget persists even if Weather message is deleted.
                 */
                 const char tmp_str[64] = "";
-                snprintf( (char*)tmp_str, sizeof( tmp_str ), " %d°C", temperature - 273);
+                snprintf( (char*)tmp_str, sizeof( tmp_str ), "%d°F", 1.8*(temperature - 273) + 32);
                 lv_label_set_text( weather_widget->label, tmp_str );
                 lv_obj_align( weather_widget->label , weather_widget->icon_cont, LV_ALIGN_IN_BOTTOM_MID, 0, 0 );
                 lv_label_set_align( weather_widget->label, LV_LABEL_ALIGN_CENTER );
