@@ -8,6 +8,8 @@ https://github.com/piggz/harbour-amazfish
 Further modifications are to optimize the layout with the information provided by Amazfish. See here for further ref (https://github.com/piggz/harbour-amazfish/blob/master/daemon/src/devices/banglejsdevice.cpp)
 
 Weather App. While the Weather App provded by Sharandac's firmware is nice, it relies on wifi to update. I have completed a weather widget that utilizes Amazfish's built in weather service messages. Visually it looks the same as the Weather app widget (maybe not as customizable). It should also work well (even better) with Gadgetbridge. Still needs some work.
+Temperature units can be changed in src/gui/mainbar/setup_tile/bluetooth_settings/buletooth_message.cpp
+change lines 817 and 823, temperature from Amazfish is passed in kelvin.
 
 Features are limited due to a limited feature set supported in Amazfish.
 
@@ -30,7 +32,7 @@ To Do:
 - Optimize BLE for Amazfish weather. Some sort of timer to set BLE to "Stay on" for a certain amount of time, then go back to just wakeups. Should help battery life since it is only 10H with "stay on" enabled which keeps it out of deep sleep.
 - Optimize message format for the way Amazfish sends messages
 
-All other features on the watch side are untouched and remain the same as with Sharandac's firmware (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
+All other features on the watch side are untouched except the removal of some apps that I dont use or wont work with Amazfish, but they can be added back in directly (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
 
 DISCLAIMER: This is very much a work in progress and my coding isn't fantastic or elegant. I take no responsiility for any damage caused by you running this firmware. It shouldn't damage anything, but if you are concerned feel free to go through the code. I run this firmware myself on a TTGO T-watch 2020 v1 with Amazfish 2.0.3 on SailfishOS 4.2.
 
