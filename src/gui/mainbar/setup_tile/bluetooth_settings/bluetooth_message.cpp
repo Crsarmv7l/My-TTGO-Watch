@@ -813,20 +813,20 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 * Modify original Weather message in Sharandac's fw to include resolved weather icon, and adjust layout a bit
                 */
                 int temperature = doc["temp"];
+                int conversion = (((9*temperature - 2457)/5) + 32);
                 const char temp_str[128] = "";
-                snprintf( (char*)temp_str, sizeof( temp_str ), " %d°F and %s", ((9*temperature - 2457)/5) + 32, doc["txt"].as<String>().c_str() );
+                const char conversion_str[64] = "";
+                snprintf( (char*)temp_str, sizeof( temp_str ), "%d°F and %s", conversion, doc["txt"].as<String>().c_str() );
                 lv_label_set_text( bluetooth_message_msg_label, temp_str );
                 /*
                 * Set Weather widget label as temp, align label with resolved weather icon, set indicator to off. Widget persists even if Weather message is deleted.
                 */
-                const char tmp_str[64] = "";
-                snprintf( (char*)tmp_str, sizeof( tmp_str ), "%d°F", ((9*temperature - 2457)/5) + 32);
+                snprintf( (char*)tmp_str, sizeof( tmp_str ), "%d°F", conversion;
                 lv_label_set_text( weather_widget->label, tmp_str );
                 lv_obj_align( weather_widget->label , weather_widget->icon_cont, LV_ALIGN_IN_BOTTOM_MID, 0, 0 );
                 lv_label_set_align( weather_widget->label, LV_LABEL_ALIGN_CENTER );
                 lv_obj_set_hidden( weather_widget->icon_indicator, true );
                 
-                lv_obj_invalidate( lv_scr_act() );
             }
             else {
                 lv_label_set_text( bluetooth_message_msg_label, "" );
