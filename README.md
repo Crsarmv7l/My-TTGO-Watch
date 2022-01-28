@@ -8,8 +8,8 @@ https://github.com/piggz/harbour-amazfish
 Further modifications are to optimize the layout with the information provided by Amazfish. See here for further ref (https://github.com/piggz/harbour-amazfish/blob/master/daemon/src/devices/banglejsdevice.cpp)
 
 Weather App. While the Weather App provded by Sharandac's firmware is nice, it relies on wifi to update. I have completed a weather widget that utilizes Amazfish's built in weather service messages. Visually it looks the same as the Weather app widget (maybe not as customizable). It should also work well (even better) with Gadgetbridge. Still needs some work.
-Temperature units can be changed in src/gui/mainbar/setup_tile/bluetooth_settings/bluetooth_message.cpp
-change line 816 int conversion.
+Temperature units can be changed from F to C in src/gui/mainbar/setup_tile/bluetooth_settings/bluetooth_message.cpp
+change line 816 int conversion to temperature - 273, and change the unit sign in the strings.
 
 Features are limited due to a limited feature set supported in Amazfish and my limited ability.
 
