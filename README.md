@@ -1,4 +1,4 @@
-Working with night/day weather widgit icons
+Working with night/day weather widget icons
 
 A fork of Sharandac's excellent firmware. This implimentation is adapted to work with Adam Piggz's Amazfish companion app on linux phone distros via the Bangle.js device type. Specifically by utilizing UART UUID's, the Bangle.js name, and expected services. On the Amazfish side the Bangle.js name along with service discovery returns pinetimejfdevice (as it should for Bangle.js), and it works through devicefactory.cpp.
 
@@ -9,9 +9,9 @@ Further modifications are to optimize the layout with the information provided b
 
 Weather App. While the Weather App provded by Sharandac's firmware is nice, it relies on wifi to update. I have completed a weather widget that utilizes Amazfish's built in weather service messages. Visually it looks the same as the Weather app widget (maybe not as customizable). It should also work well (even better) with Gadgetbridge. Still needs some work.
 Temperature units can be changed in src/gui/mainbar/setup_tile/bluetooth_settings/bluetooth_message.cpp
-change lines 817 and 823, temperature from Amazfish is passed in kelvin.
+change line 816 int conversion.
 
-Features are limited due to a limited feature set supported in Amazfish.
+Features are limited due to a limited feature set supported in Amazfish and my limited ability.
 
 Currently Supported Features:
 - Call notification
@@ -19,11 +19,13 @@ Currently Supported Features:
 - Email notification
 - Chat app notification
 - Weather notification
-- Weather widget via Amazfish Weather Service message. "Stay on" MUST be enabled in the Watch firmware settings due to the method with which Amazfish sends Weather (immediately instead of caching the message and sending on connect).
+- Weather widget via Amazfish Weather Service message. "Stay on" should be enabled in the Watch firmware settings due to the method with which Amazfish sends Weather (immediately instead of caching the message and sending on connect). You can set Amazfish to spam weather messages more frequently (every 8-9min) and they will be caught sometimes. Changing you pmu.json for about 6 minutes as well *seems* to help. Again it is sporadic. Adjusting amazfish to send on connect would be better.
 
 Can Work, but doesn't:
 - Music Control IS implimented in Amazfish, but I have little interest in fixing it to work. Maybe in the future.
 - Step sync via message (dunno why it isn't working really)
+- Battery sync same as above. Battery UUID is correct, but amazfish isn't reading it. Also tried the Battery json msg method.
+  - Due to the above, both Step sync and Battery level were removed
 
 Will not work unless implimented on Amazfish:
 - Navigation
