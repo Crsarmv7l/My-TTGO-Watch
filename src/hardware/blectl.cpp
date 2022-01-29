@@ -502,7 +502,17 @@ bool blectl_get_enable_on_standby( void ) {
 }
 
 bool blectl_get_disable_only_disconnected( void ) {
-    return( blectl_config.disable_only_disconnected );
+    time_t now;
+    struct tm info;
+    time( &now );
+    localtime_r( &now, &info );
+    int m = info.tm_min;
+    if( m > 30 && m < 50){
+        return( blectl_config.disable_only_disconnected=true);
+    }
+    else {
+        return( blectl_config.disable_only_disconnected=false);
+    }
 }
 
 bool blectl_get_show_notification( void ) {
