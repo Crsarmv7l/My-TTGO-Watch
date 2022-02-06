@@ -32,9 +32,8 @@ Will not work unless implimented on Amazfish:
 - Navigation
 
 To Do:
-Complete (aside from further optimizations)
-- Optimize BLE for Amazfish weather. Some sort of timer to set BLE to "Stay on" for a certain amount of time, then go back to just wakeups. Should help battery life since it is only 10H with "stay on" enabled which keeps it out of deep sleep.
-- Optimize message format for the way Amazfish sends messages
+- Build Amazfish so I don't have to use my above battery draining workaround for weather. Might also look into enabling navigation. MAYBE.
+
 
 All other features on the watch side are untouched except the removal of some apps that I dont use or wont work with Amazfish, but they can be added back in directly (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
 
