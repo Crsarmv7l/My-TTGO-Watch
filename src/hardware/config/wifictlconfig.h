@@ -35,6 +35,7 @@
      */
     typedef struct {
         char ssid[64]="";
+        char bssid[64]="";
         char password[64]="";
     } wifictl_networklist;
 
