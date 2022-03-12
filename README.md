@@ -7,7 +7,7 @@ https://github.com/piggz/harbour-amazfish
 
 Further modifications are to optimize the layout with the information provided by Amazfish. See here for further ref (https://github.com/piggz/harbour-amazfish/blob/master/daemon/src/devices/banglejsdevice.cpp)
 
-While the Weather App provded by Sharandac's firmware is nice, it relies on wifi to update. I have completed a weather widget that utilizes Amazfish's built in weather service messages. Visually it looks the same as the Weather app widget (maybe not as customizable). It should also work well (even better) with Gadgetbridge. Probably still needs some work, but its functional.
+While the Weather App provded by Sharandac's firmware is nice, it relies on wifi to update. I have completed a weather widget that utilizes Amazfish's built in weather service messages. Visually it looks the same as the Weather app widget (maybe not as customizable). It should also work well with Gadgetbridge. Probably still needs some work, but its functional.
 
 Temperature units can be changed from F to C in src/gui/mainbar/setup_tile/bluetooth_settings/bluetooth_message.cpp
 change line 816 "int conversion" to "temperature - 273", and change the unit sign in the strings for Celcius.
@@ -20,19 +20,15 @@ Currently Supported Features:
 - Email notification
 - Chat app notification
 - Weather notification
-- Weather widget via Amazfish Weather Service message. Watch will "Stay on" for 20min every hour to update weather. Ensure you set your weather update frequency on Amazfish to the lowest setting (most frequent). You can also set it lower via dconf. Adjusting amazfish to send on connect would be better. Might be able to further optimize.
+- Weather widget 
+     -Modified Amazfish to send on connect. If you want my version just ask.
+-Experimental deauth attack in wifi settings. It is broadcast deauth so ymmv.
 
 Can Work, but doesn't:
 - Music Control IS implimented in Amazfish, but I have little interest in fixing it to work. Maybe in the future.
 - Step sync via message (dunno why it isn't working really)
 - Battery sync same as above. Battery UUID is correct,battery message has the correct triggers but amazfish isn't reading it. Might be formatting?
   - Due to the above, both Step sync and Battery level were removed
-
-Will not work unless implimented on Amazfish:
-- Navigation
-
-To Do:
-- Build Amazfish so I don't have to use my above battery draining workaround for weather. Might also look into enabling navigation. MAYBE.
 
 
 All other features on the watch side are untouched except the removal of some apps that I dont use or wont work with Amazfish, but they can be added back in directly (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
