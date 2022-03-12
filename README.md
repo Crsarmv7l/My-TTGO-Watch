@@ -21,8 +21,8 @@ Currently Supported Features:
 - Chat app notification
 - Weather notification
 - Weather widget 
-     -Modified Amazfish to send on connect. If you want my version just ask.
--Experimental deauth attack in wifi settings. It is broadcast deauth so ymmv.
+     - Modified Amazfish to send on connect. If you want my version just ask.
+- Experimental deauth attack in wifi settings. It is broadcast deauth so ymmv.
 
 Can Work, but doesn't:
 - Music Control IS implimented in Amazfish, but I have little interest in fixing it to work. Maybe in the future.
