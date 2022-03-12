@@ -21,7 +21,7 @@ Currently Supported Features:
 - Chat app notification
 - Weather notification
 - Weather widget 
-     - Modified Amazfish to send on connect. If you want my version just ask.
+     - Modified Amazfish to send on connect twice an hour. If you want my version just ask.
 - Experimental deauth attack in wifi settings. It is broadcast deauth so ymmv.
 
 Can Work, but doesn't:
