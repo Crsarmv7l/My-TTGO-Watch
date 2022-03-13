@@ -23,6 +23,7 @@ Currently Supported Features:
 - Weather widget 
      - Modified Amazfish to send on connect twice an hour. If you want my version just ask.
 - Experimental deauth attack in wifi settings. It is broadcast deauth so ymmv.
+Deauth based on the works of many people, but in particular the ESP32 Marauder Project forund here: https://github.com/justcallmekoko/ESP32Marauder/
 
 Can Work, but doesn't:
 - Music Control IS implimented in Amazfish, but I have little interest in fixing it to work. Maybe in the future.
