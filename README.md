@@ -36,7 +36,7 @@ Current deauth simply takes a user selected target's bssid and throws that in a 
 
 The idea to fix this is to get the user selected target's BSSID, drop into promiscuous mode, filter only AP beacons, compare the BSSID in the beacon to the BSSID the user selected, if they match, construct the deauth packet for the AP beacon BSSID and MAC. That should take care of any issues with BSSID/MAC not being the same (if they are the same it doesn't matter either). I am making progress but it will be a while.
 
-
+# Other:
 All other features on the watch side are untouched except the removal of some apps that I dont use or wont work with Amazfish, but they can be added back in directly (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
 
 DISCLAIMER: This is very much a work in progress and my coding isn't fantastic or elegant. I take no responsiility for any damage caused by you running this firmware. It shouldn't damage anything, but if you are concerned feel free to go through the code. I run this firmware myself on a TTGO T-watch 2020 v1 with Amazfish 2.0.3 on SailfishOS 4.2.
