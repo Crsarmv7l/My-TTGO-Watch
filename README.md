@@ -31,6 +31,11 @@ Can Work, but doesn't:
 - Battery sync same as above. Battery UUID is correct,battery message has the correct triggers but amazfish isn't reading it. Might be formatting?
   - Due to the above, both Step sync and Battery level were removed
 
+# Work in Progress:
+Current deauth simply takes a user selected target's bssid and throws that in a packet as both the MAC and BSSID in the simplest way possible. Despite what people say, while the BSSID *can* be the MAC, it isn't always. For instance this works fine on my main router, but doesn't work at all on my secondary router that uses a powerline adaptor.
+
+The idea to fix this is to get the user selected target's BSSID, drop into promiscuous mode, filter only AP beacons, compare the BSSID in the beacon to the BSSID the user selected, if they match, construct the deauth packet for the AP beacon BSSID and MAC. That should take care of any issues with BSSID/MAC not being the same (if they are the same it doesn't matter either). I am making progress but it will be a while.
+
 
 All other features on the watch side are untouched except the removal of some apps that I dont use or wont work with Amazfish, but they can be added back in directly (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
 
