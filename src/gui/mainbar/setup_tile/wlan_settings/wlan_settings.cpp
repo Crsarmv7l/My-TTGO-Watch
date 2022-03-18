@@ -41,7 +41,6 @@
     #include <Arduino.h>
     #include <WiFi.h>
     #include <esp_wifi.h>
-    #include <esp_err.h>
 #endif
 
 lv_obj_t *wifi_settings_tile=NULL;
