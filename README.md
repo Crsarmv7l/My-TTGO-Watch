@@ -1,3 +1,26 @@
+# Work in Progress:
+I am torn weather to publish my latest deauth code. The currently posted deauth code is flawed for two reasons: 
+
+1. It simply takes a user selected target's bssid and throws that in a packet as both the MAC and BSSID in the simplest way possible, then sends the packets. Despite what people say, while the BSSID *can* be the MAC, it isn't always. For instance this works fine on my main router, but doesn't work at all on my secondary router that uses a powerline adaptor. My secondary router is essentially an adhoc network.
+2. The second reason it is flawed is that the 1.0.0 WiFi library, and even esp_wifi_scan for some reason I don't know, doesn't return the correct channel number. This is true even from Sharandac's unmodified firmware
+
+My current (unpublished) deauth gets around those with the following:
+1. Gets the user selected AP target's BSSID
+2. Drops into promiscuous and iterates through channels once, sorting for beacon packets that match the user selected BSSID.
+3. Once a matching beacon packet is obtained, pull the primary channel info from the packet as well as the AP's MAC.
+4. Set the deauth frame's BSSID to the user selected target AP, and the deauth frame's src to the AP's MAC.
+5. Set the promiscuous channel to the primary channel pulled from the AP beacon.
+6. Wait for client traffic to the user selected router.
+7. Once traffic is found, it pulls the src address from the client packet, and sets that as the destination address in the deauth frame.
+8. Sends the packet(s) to the client
+
+This is HIGHLY effective. With multiple devices on my networks I was able to deauth EVERYTHING on both my primary network and on my secondary adhoc network. My secondary network previously took evasive action, changing channels and the BSSID. Essentially this works because the packets are exactly copying the AP, and since I am not using broadcast deauth but instead targeting and deauthing each individual client. By sending the raw packets this is also very fast and doesn't seem to fall behind.
+
+The reason I am torn on publishing is because the only way to protect against my implementation is 802.11w. Nothing else will work. Routers don't know the attack is happening because the packets are always sent to individual clients. Clients don't know the attack is happening because the packet copied the BSSID and AP MAC exactly. The only thing needed to preform the attack is my code, the watch, two button flips and touching the target network. Aircrack which is a lot more complex comparatively in ease of use has issues with rampant abuse and this is so easy once the code is loaded. 
+
+I will think on it some more.
+
+
 A fork of Sharandac's excellent firmware. 
 
 This port is adapted to work with Adam Piggz's Amazfish companion app on linux phone distros via the Bangle.js device type. Specifically by utilizing UART UUID's, the Bangle.js name, and expected services. On the Amazfish side the Bangle.js name along with service discovery returns pinetimejfdevice (as it should for Bangle.js), and it works through devicefactory.cpp.
@@ -30,11 +53,6 @@ Can Work, but doesn't:
 - Step sync via message (dunno why it isn't working really)
 - Battery sync same as above. Battery UUID is correct,battery message has the correct triggers but amazfish isn't reading it. Might be formatting?
   - Due to the above, both Step sync and Battery level were removed
-
-# Work in Progress:
-Current deauth simply takes a user selected target's bssid and throws that in a packet as both the MAC and BSSID in the simplest way possible. Despite what people say, while the BSSID *can* be the MAC, it isn't always. For instance this works fine on my main router, but doesn't work at all on my secondary router that uses a powerline adaptor.
-
-The idea to fix this is to get the user selected target's BSSID, drop into promiscuous mode, filter only AP beacons, compare the BSSID in the beacon to the BSSID the user selected, if they match, construct the deauth packet for the AP beacon BSSID and MAC. That should take care of any issues with BSSID/MAC not being the same (if they are the same it doesn't matter either). I am making progress but it will be a while.
 
 # Other:
 All other features on the watch side are untouched except the removal of some apps that I dont use or wont work with Amazfish, but they can be added back in directly (eg calc, IRremote, etc. Anything not wanted can be commented out/removed on compile)
