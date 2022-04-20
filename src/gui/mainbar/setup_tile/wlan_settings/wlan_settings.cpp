@@ -456,15 +456,10 @@ void spam_task(void *pvParameter) {
                                             packet[15] = packet[21] = random(256);
 
                                             packet[37] = 6;
-
-                                            memcpy (&packet[38], &alfa[random(65)], sizeof(packet[38]));
-                                            memcpy (&packet[39], &alfa[random(65)], sizeof(packet[39]));
-                                            memcpy (&packet[40], &alfa[random(65)], sizeof(packet[40]));
-                                            memcpy (&packet[41], &alfa[random(65)], sizeof(packet[41]));
-                                            memcpy (&packet[42], &alfa[random(65)], sizeof(packet[42]));
-                                            memcpy (&packet[43], &alfa[random(65)], sizeof(packet[43]));
-
-                                            packet[56] =set_channel;
+                                            
+                                            for (int i = 0; i < 6; i++) {
+                                            memcpy (&packet[38 + i], &alfa[random(65)], sizeof(packet[38 + i]));
+                                            }
 
                                             uint8_t postSSID[13] = {0x01, 0x08, 0x82, 0x84, 0x8b, 0x96, 0x24, 0x30, 0x48, 0x6c, //supported rate
                                                                     0x03, 0x01, 0x04 /*DSSS (Current Channel)*/ };
@@ -472,8 +467,10 @@ void spam_task(void *pvParameter) {
 
                                             // Add everything that goes after the SSID
                                              for(int i = 0; i < 12; i++) {
-                                            memcpy (&packet[44 + i], &postSSID[i], sizeof(packet[44 + i]));
+                                             memcpy (&packet[44 + i], &postSSID[i], sizeof(packet[44 + i]));
                                              }
+                                             
+                                             packet[56] =set_channel;
 
                                              esp_wifi_80211_tx(WIFI_IF_STA, packet, sizeof(packet), false);
                                              esp_wifi_80211_tx(WIFI_IF_STA, packet, sizeof(packet), false);
