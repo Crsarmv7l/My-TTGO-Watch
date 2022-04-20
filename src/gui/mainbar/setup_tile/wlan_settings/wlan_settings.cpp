@@ -457,13 +457,15 @@ void spam_task(void *pvParameter) {
 
                                             packet[37] = 6;
                                             
-                                            for (int i = 0; i < 6; i++) {
-                                            memcpy (&packet[38 + i], &alfa[random(65)], sizeof(packet[38 + i]));
-                                            }
+                                            memcpy (&packet[38], &alfa[random(65)], sizeof(packet[38]));
+                                            memcpy (&packet[39], &alfa[random(65)], sizeof(packet[39]));
+                                            memcpy (&packet[40], &alfa[random(65)], sizeof(packet[40]));
+                                            memcpy (&packet[41], &alfa[random(65)], sizeof(packet[41]));
+                                            memcpy (&packet[42], &alfa[random(65)], sizeof(packet[42]));
+                                            memcpy (&packet[43], &alfa[random(65)], sizeof(packet[43]));
 
                                             uint8_t postSSID[13] = {0x01, 0x08, 0x82, 0x84, 0x8b, 0x96, 0x24, 0x30, 0x48, 0x6c, //supported rate
                                                                     0x03, 0x01, 0x04 /*DSSS (Current Channel)*/ };
-
 
                                             // Add everything that goes after the SSID
                                              for(int i = 0; i < 12; i++) {
