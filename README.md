@@ -17,6 +17,7 @@ Currently Supported Features:
 - Weather widget 
      - Modified Amazfish to send on connect twice an hour. If you want my version just ask.
 - Experimental deauth attack in wifi settings. Enable the right switch (turns on normal wifi), then turn on left switch. Then select AP target. Deauth continues until the left switch is turned off.
+(This deauth is broadcast, not client specific, it should be easy to look at the code and add another if statement in the promiscuous filt that kicks in after first_run, filtering by destination BSSID/MAC, if to the AP, pull the sender address and insert into the Dest address on the deauth packet and send).
      - Normal wifi usage is not affected (just use right switch alone). I haven't really tested deauth/beacon spam with a saved network, but I wanted to keep normal usage incase ftp access is needed. I recommend deleting the network after ftp usage to ensure there are no issues.
 Deauth based on the works of many people, but in particular the ESP32 Marauder Project forund here: https://github.com/justcallmekoko/ESP32Marauder/
 - AP Beacon Spam. Turn on wifi in settings with the right switch. Go into the subsettings and turn on the beacon spam switch. Beacon spam continues until turned off.
