@@ -20,6 +20,7 @@ Currently Supported Features:
      - Deauth Notes: Deauth gets all information from the selected target AP's beacon packet and is triggered by said packets. (This deauth is broadcast, not        client specific, it should be easy to look at the code and add another if statement in the promiscuous filt that kicks in after first_run, filtering by          destination BSSID/MAC, if to the AP, pull the sender address and insert into the Dest address on the deauth packet and send).
      - Normal wifi usage is not affected (just use right switch alone). I haven't really tested deauth/beacon spam with a saved network, but I wanted to keep        normal usage incase ftp access is needed. I recommend deleting the network after ftp usage to ensure there are no issues.
      - Deauth based on the works of many people, but in particular the ESP32 Marauder Project found here: https://github.com/justcallmekoko/ESP32Marauder/
+     - Enhancements and trigger is my own work
 - AP Beacon Spam. Turn on wifi in settings with the right switch. Go into the subsettings and turn on the beacon spam switch. Beacon spam continues until turned off. This is a straight integration of the Beacon Spam found here: https://github.com/justcallmekoko/ESP32Marauder/ with minimal enhancements. 
      - Unlike deauth, beacon spam isn't triggered by a specific packet. Maybe I will dig more into triggering on a probe request, but the packet building will        need to speed up substantially. It simply builds and sends beacon packets constantly.
 
