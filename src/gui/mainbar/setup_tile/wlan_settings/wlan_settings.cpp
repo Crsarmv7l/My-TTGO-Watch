@@ -493,15 +493,12 @@ static void beacon_spam_onoff_event_handler( lv_obj_t * obj, lv_event_t event ) 
                                              display_set_timeout( DISPLAY_MAX_TIMEOUT );
                         
                                              esp_wifi_set_max_tx_power(78);
-                                             esp_wifi_set_promiscuous(true);
-
+                     
                                             xTaskCreate(&spam_task, "spam_task", 4096, NULL, 5, NULL);
                                         
                                         }
                                         else {
-                                            esp_wifi_set_promiscuous(false);
-                                            display_set_timeout( DISPLAY_MIN_TIMEOUT ); 
-                            
+                                             display_set_timeout( DISPLAY_MIN_TIMEOUT ); 
                                         }
                                         break;
     }
