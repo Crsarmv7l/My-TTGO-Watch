@@ -442,7 +442,7 @@ static void wifi_autoon_onoff_event_handler( lv_obj_t * obj, lv_event_t event ) 
 }
 
 
-void spam_task(void *pvParameter) {
+void spam_task(void *pvParameter) {         motor_vibe(10);
                                             for(;;){
                                             int set_channel = random(1,12);
                                             esp_wifi_set_channel(set_channel, WIFI_SECOND_CHAN_NONE);
