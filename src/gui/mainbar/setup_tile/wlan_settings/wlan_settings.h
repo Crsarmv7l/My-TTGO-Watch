@@ -22,6 +22,22 @@
 #ifndef _WLAN_SETTINGS_H
     #define _WLAN_SETTINGS_H
 
+     typedef struct
+    {
+      int16_t fctl;
+      int16_t duration;
+      uint8_t da;
+      uint8_t sa;
+      uint8_t bssid;
+      int16_t seqctl;
+      unsigned char payload[];
+    } __attribute__((packed)) WifiMgmtHdr;
+
+    typedef struct {
+      uint8_t payload[0];
+      WifiMgmtHdr hdr;
+    } wifi_ieee80211_packet_t;
+
     void wlan_settings_tile_setup( void );
     void wlan_password_tile_setup( uint32_t wifi_password_tile_num );
     void wlan_setup_tile_setup( uint32_t wifi_setup_tile_num );
