@@ -57,6 +57,7 @@
 // messages app and widget
 icon_t *messages_app = NULL;
 icon_t *messages_widget = NULL;
+icon_t *weather_widget = NULL;
 
 lv_obj_t *bluetooth_message_tile=NULL;
 lv_style_t bluetooth_message_style;
@@ -95,7 +96,6 @@ LV_IMG_DECLARE(message_96px);
     #define default_msg_icon        &message_96px
 
     LV_IMG_DECLARE(telegram_96px);
-    LV_IMG_DECLARE(signal_96px);
     LV_IMG_DECLARE(whatsapp_96px);
     LV_IMG_DECLARE(k9mail_96px);
     LV_IMG_DECLARE(email_96px);
@@ -103,24 +103,94 @@ LV_IMG_DECLARE(message_96px);
     LV_IMG_DECLARE(youtube_96px);
     LV_IMG_DECLARE(instagram_96px);
     LV_IMG_DECLARE(tinder_96px);
-    LV_IMG_DECLARE(joyce_96px);
-    LV_IMG_DECLARE(update_96px);
+    LV_IMG_DECLARE(owm01d_64px);
+    LV_IMG_DECLARE(owm02d_64px);
+    LV_IMG_DECLARE(owm03d_64px);
+    LV_IMG_DECLARE(owm04d_64px);
+    LV_IMG_DECLARE(owm09d_64px);
+    LV_IMG_DECLARE(owm10d_64px);
+    LV_IMG_DECLARE(owm11d_64px);
+    LV_IMG_DECLARE(owm13d_64px);
+    LV_IMG_DECLARE(owm50d_64px);
+    LV_IMG_DECLARE(owm01n_64px);
+    LV_IMG_DECLARE(owm02n_64px);
+    LV_IMG_DECLARE(owm03n_64px);
+    LV_IMG_DECLARE(owm04n_64px);
+    LV_IMG_DECLARE(owm09n_64px);
+    LV_IMG_DECLARE(owm10n_64px);
+    LV_IMG_DECLARE(owm11n_64px);
+    LV_IMG_DECLARE(owm13n_64px);
+    LV_IMG_DECLARE(owm50n_64px);
 
     src_icon_t src_icon[] = {
-        { "Telegram", true, &telegram_96px },
-        { "Signal", true, &signal_96px },
-        { "WhatsApp", true, &whatsapp_96px },
-        { "K-9 Mail", true, &k9mail_96px },
-        { "Gmail", true, &email_96px },
-        { "E-Mail", true, &message_96px },
-        { "OsmAnd", false, &osmand_96px },
-        { "YouTube", false, &youtube_96px },
-        { "Instagram", false, &instagram_96px },
-        { "Tinder", false, &tinder_96px },
-        { "JOYCE", false, &tinder_96px },
-        { "Update", false, &update_96px },
+        { "Telegram", &telegram_96px, &telegram_96px },
+        { "WhatsApp", &whatsapp_96px, &whatsapp_96px },
+        { "K-9 Mail", &k9mail_96px, &k9mail_96px },
+        { "Gmail", &email_96px, &email_96px  },
+        { "E-Mail", &message_96px, &message_96px  },
+        { "OsmAnd", &osmand_96px, &osmand_96px },
+        { "YouTube", &youtube_96px, &youtube_96px },
+        { "Instagram", &instagram_96px, &instagram_96px },
+        { "Tinder", &tinder_96px, &tinder_96px },
+        { "clear sky", &owm01d_64px, &owm01n_64px },
+        { "few clouds", &owm02d_64px, &owm02n_64px },
+        { "scattered clouds", &owm03d_64px, &owm03n_64px },
+        { "overcast clouds", &owm04d_64px, &owm04n_64px },
+        { "broken clouds", &owm04d_64px, &owm04n_64px },
+        { "shower rain", &owm09d_64px,, &owm09n_64px },
+        { "light intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "drizzle", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "light intensity drizzle rain", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "drizzle rain", &owm09d_64px, &owm09n_64px },
+        { "shower rain and drizzle", &owm09d_64px, &owm09n_64px },
+        { "heavy shower rain and drizzle", &owm09d_64px, &owm09n_64px },
+        { "shower drizzle", &owm09d_64px, &owm09n_64px },
+        { "light rain", &owm10d_64px, &owm10n_64px },
+        { "moderate rain", &owm10d_64px, &owm10n_64px },
+        { "light intensity shower rain", &owm09d_64px, &owm09n_64px },
+        { "very heavy rain", &owm10d_64px, &owm10n_64px },
+        { "extreme rain", &owm10d_64px, &owm10n_64px },
+        { "shower rain", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity shower rain", &owm09d_64px, &owm09n_64px },
+        { "ragged shower rain", &owm09d_64px, &owm09n_64px },
+        { "rain", &owm10d_64px, &owm10n_64px },
+        { "thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with light rain", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with rain", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with heavy rain", &owm11d_64px, &owm11n_64px },
+        { "light thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "heavy thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "ragged thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with light drizzle", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with heavy drizzle", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with drizzle", &owm11d_64px, &owm11n_64px },
+        { "snow", &owm13d_64px, &owm13n_64px },
+        { "light snow", &owm13d_64px, &owm13n_64px },
+        { "heavy snow", &owm13d_64px, &owm13n_64px },
+        { "sleet", &owm13d_64px, &owm13n_64px },
+        { "light shower sleet", &owm13d_64px, &owm13n_64px },
+        { "shower sleet", &owm13d_64px, &owm13n_64px },
+        { "light rain and snow", &owm13d_64px, &owm13n_64px },
+        { "rain and snow", &owm13d_64px, &owm13n_64px },
+        { "light shower snow", &owm13d_64px, &owm13n_64px },
+        { "shower snow", &owm13d_64px, &owm13n_64px },
+        { "heavy shower snow", &owm13d_64px, &owm13n_64px },
+        { "freezing rain", &owm13d_64px, &owm13n_64px },
+        { "mist", &owm50d_64px, &owm50n_64px },
+        { "smoke", &owm50d_64px, &owm50n_64px },
+        { "haze", &owm50d_64px, &owm50n_64px },
+        { "sand/ dust whirls", &owm50d_64px, &owm50n_64px },
+        { "fog", &owm50d_64px, &owm50n_64px },
+        { "sand", &owm50d_64px, &owm50n_64px },
+        { "dust", &owm50d_64px, &owm50n_64px },
+        { "volcanic ash", &owm50d_64px, &owm50n_64px },
+        { "squalls", &owm50d_64px, &owm50n_64px },
+        { "tornado", &owm50d_64px, &owm50n_64px },
         { "", NULL }
     };
+
 
     lv_font_t *message_title_font = &Ubuntu_72px;
     lv_font_t *message_font = &Ubuntu_32px;
@@ -128,7 +198,6 @@ LV_IMG_DECLARE(message_96px);
     #define default_msg_icon        &message_64px
 
     LV_IMG_DECLARE(telegram_64px);
-    LV_IMG_DECLARE(signal_64px);
     LV_IMG_DECLARE(whatsapp_64px);
     LV_IMG_DECLARE(k9mail_64px);
     LV_IMG_DECLARE(email_64px);
@@ -136,22 +205,91 @@ LV_IMG_DECLARE(message_96px);
     LV_IMG_DECLARE(youtube_64px);
     LV_IMG_DECLARE(instagram_64px);
     LV_IMG_DECLARE(tinder_64px);
-    LV_IMG_DECLARE(joyce_64px);
-    LV_IMG_DECLARE(update_64px);
+    LV_IMG_DECLARE(owm01d_64px);
+    LV_IMG_DECLARE(owm02d_64px);
+    LV_IMG_DECLARE(owm03d_64px);
+    LV_IMG_DECLARE(owm04d_64px);
+    LV_IMG_DECLARE(owm09d_64px);
+    LV_IMG_DECLARE(owm10d_64px);
+    LV_IMG_DECLARE(owm11d_64px);
+    LV_IMG_DECLARE(owm13d_64px);
+    LV_IMG_DECLARE(owm50d_64px);
+    LV_IMG_DECLARE(owm01n_64px);
+    LV_IMG_DECLARE(owm02n_64px);
+    LV_IMG_DECLARE(owm03n_64px);
+    LV_IMG_DECLARE(owm04n_64px);
+    LV_IMG_DECLARE(owm09n_64px);
+    LV_IMG_DECLARE(owm10n_64px);
+    LV_IMG_DECLARE(owm11n_64px);
+    LV_IMG_DECLARE(owm13n_64px);
+    LV_IMG_DECLARE(owm50n_64px);
 
     src_icon_t src_icon[] = {
-        { "Telegram", true, &telegram_64px },
-        { "Signal", true, &signal_64px },
-        { "WhatsApp", true, &whatsapp_64px },
-        { "K-9 Mail", true, &k9mail_64px },
-        { "Gmail", true, &email_64px },
-        { "E-Mail", true, &message_64px },
-        { "OsmAnd", false, &osmand_64px },
-        { "YouTube", false, &youtube_64px },
-        { "Instagram", false, &instagram_64px },
-        { "Tinder", false, &tinder_64px },
-        { "JOYCE", false, &tinder_64px },
-        { "Update", false, &update_64px },
+        { "Telegram", &telegram_64px, &telegram_64px },
+        { "WhatsApp", &whatsapp_64px, &whatsapp_64px },
+        { "K-9 Mail", &k9mail_64px, &k9mail_64px },
+        { "Gmail", &email_64px, &email_64px  },
+        { "E-Mail", &message_64px, &message_64px  },
+        { "OsmAnd", &osmand_64px, &osmand_64px },
+        { "YouTube", &youtube_64px, &youtube_64px },
+        { "Instagram", &instagram_64px, &instagram_64px },
+        { "Tinder", &tinder_64px, &tinder_64px },
+        { "clear sky", &owm01d_64px, &owm01n_64px },
+        { "few clouds", &owm02d_64px, &owm02n_64px },
+        { "scattered clouds", &owm03d_64px, &owm03n_64px },
+        { "overcast clouds", &owm04d_64px, &owm04n_64px },
+        { "broken clouds", &owm04d_64px, &owm04n_64px },
+        { "shower rain", &owm09d_64px,, &owm09n_64px },
+        { "light intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "drizzle", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "light intensity drizzle rain", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "drizzle rain", &owm09d_64px, &owm09n_64px },
+        { "shower rain and drizzle", &owm09d_64px, &owm09n_64px },
+        { "heavy shower rain and drizzle", &owm09d_64px, &owm09n_64px },
+        { "shower drizzle", &owm09d_64px, &owm09n_64px },
+        { "light rain", &owm10d_64px, &owm10n_64px },
+        { "moderate rain", &owm10d_64px, &owm10n_64px },
+        { "light intensity shower rain", &owm09d_64px, &owm09n_64px },
+        { "very heavy rain", &owm10d_64px, &owm10n_64px },
+        { "extreme rain", &owm10d_64px, &owm10n_64px },
+        { "shower rain", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity shower rain", &owm09d_64px, &owm09n_64px },
+        { "ragged shower rain", &owm09d_64px, &owm09n_64px },
+        { "rain", &owm10d_64px, &owm10n_64px },
+        { "thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with light rain", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with rain", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with heavy rain", &owm11d_64px, &owm11n_64px },
+        { "light thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "heavy thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "ragged thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with light drizzle", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with heavy drizzle", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with drizzle", &owm11d_64px, &owm11n_64px },
+        { "snow", &owm13d_64px, &owm13n_64px },
+        { "light snow", &owm13d_64px, &owm13n_64px },
+        { "heavy snow", &owm13d_64px, &owm13n_64px },
+        { "sleet", &owm13d_64px, &owm13n_64px },
+        { "light shower sleet", &owm13d_64px, &owm13n_64px },
+        { "shower sleet", &owm13d_64px, &owm13n_64px },
+        { "light rain and snow", &owm13d_64px, &owm13n_64px },
+        { "rain and snow", &owm13d_64px, &owm13n_64px },
+        { "light shower snow", &owm13d_64px, &owm13n_64px },
+        { "shower snow", &owm13d_64px, &owm13n_64px },
+        { "heavy shower snow", &owm13d_64px, &owm13n_64px },
+        { "freezing rain", &owm13d_64px, &owm13n_64px },
+        { "mist", &owm50d_64px, &owm50n_64px },
+        { "smoke", &owm50d_64px, &owm50n_64px },
+        { "haze", &owm50d_64px, &owm50n_64px },
+        { "sand/ dust whirls", &owm50d_64px, &owm50n_64px },
+        { "fog", &owm50d_64px, &owm50n_64px },
+        { "sand", &owm50d_64px, &owm50n_64px },
+        { "dust", &owm50d_64px, &owm50n_64px },
+        { "volcanic ash", &owm50d_64px, &owm50n_64px },
+        { "squalls", &owm50d_64px, &owm50n_64px },
+        { "tornado", &owm50d_64px, &owm50n_64px },
         { "", NULL }
     };
 
@@ -161,34 +299,102 @@ LV_IMG_DECLARE(message_96px);
     #define default_msg_icon        &message_32px
 
     LV_IMG_DECLARE(telegram_32px);
-    LV_IMG_DECLARE(signal_32px);
     LV_IMG_DECLARE(whatsapp_32px);
     LV_IMG_DECLARE(k9mail_32px);
     LV_IMG_DECLARE(email_32px);
     LV_IMG_DECLARE(osmand_32px);
     LV_IMG_DECLARE(youtube_32px);
     LV_IMG_DECLARE(instagram_32px);
-    LV_IMG_DECLARE(tinder_32px);    
-    LV_IMG_DECLARE(joyce_32px);
-    LV_IMG_DECLARE(update_32px);
+    LV_IMG_DECLARE(tinder_32px);
+    LV_IMG_DECLARE(owm01d_64px);
+    LV_IMG_DECLARE(owm02d_64px);
+    LV_IMG_DECLARE(owm03d_64px);
+    LV_IMG_DECLARE(owm04d_64px);
+    LV_IMG_DECLARE(owm09d_64px);
+    LV_IMG_DECLARE(owm10d_64px);
+    LV_IMG_DECLARE(owm11d_64px);
+    LV_IMG_DECLARE(owm13d_64px);
+    LV_IMG_DECLARE(owm50d_64px);
+    LV_IMG_DECLARE(owm01n_64px);
+    LV_IMG_DECLARE(owm02n_64px);
+    LV_IMG_DECLARE(owm03n_64px);
+    LV_IMG_DECLARE(owm04n_64px);
+    LV_IMG_DECLARE(owm09n_64px);
+    LV_IMG_DECLARE(owm10n_64px);
+    LV_IMG_DECLARE(owm11n_64px);
+    LV_IMG_DECLARE(owm13n_64px);
+    LV_IMG_DECLARE(owm50n_64px);
 
     src_icon_t src_icon[] = {
-        { "Telegram", true, &telegram_32px },
-        { "Signal", true, &signal_32px },
-        { "WhatsApp", true, &whatsapp_32px },
-        { "K-9 Mail", true, &k9mail_32px },
-        { "Gmail", true, &email_32px },
-        { "E-Mail", true, &message_32px },
-        { "OsmAnd", false, &osmand_32px },
-        { "YouTube", false, &youtube_32px },
-        { "Instagram", false, &instagram_32px },
-        { "Tinder", false, &tinder_32px },
-        { "JOYCE", false, &tinder_32px },
-        { "Update", false, &update_32px },
+        { "Telegram", &telegram_32px, &telegram_32px },
+        { "WhatsApp", &whatsapp_32px, &whatsapp_32px  },
+        { "K-9 Mail", &k9mail_32px, &k9mail_32px },
+        { "Gmail", &email_32px, &email_32px },
+        { "E-Mail", &message_32px, &message_32px },
+        { "OsmAnd", &osmand_32px, &osmand_32px },
+        { "YouTube", &youtube_32px, &youtube_32px },
+        { "Instagram", &instagram_32px, &instagram_32px },
+        { "Tinder", &tinder_32px, &tinder_32px },
+        { "clear sky", &owm01d_64px, &owm01n_64px },
+        { "few clouds", &owm02d_64px, &owm02n_64px },
+        { "scattered clouds", &owm03d_64px, &owm03n_64px },
+        { "overcast clouds", &owm04d_64px, &owm04n_64px },
+        { "broken clouds", &owm04d_64px, &owm04n_64px },
+        { "shower rain", &owm09d_64px, &owm09n_64px },
+        { "light intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "drizzle", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "light intensity drizzle rain", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
+        { "drizzle rain", &owm09d_64px, &owm09n_64px },
+        { "shower rain and drizzle", &owm09d_64px, &owm09n_64px },
+        { "heavy shower rain and drizzle", &owm09d_64px, &owm09n_64px },
+        { "shower drizzle", &owm09d_64px, &owm09n_64px },
+        { "light rain", &owm10d_64px, &owm10n_64px },
+        { "moderate rain", &owm10d_64px, &owm10n_64px },
+        { "light intensity shower rain", &owm09d_64px, &owm09n_64px },
+        { "very heavy rain", &owm10d_64px, &owm10n_64px },
+        { "extreme rain", &owm10d_64px, &owm10n_64px },
+        { "shower rain", &owm09d_64px, &owm09n_64px },
+        { "heavy intensity shower rain", &owm09d_64px, &owm09n_64px },
+        { "ragged shower rain", &owm09d_64px, &owm09n_64px },
+        { "rain", &owm10d_64px, &owm10n_64px },
+        { "thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with light rain", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with rain", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with heavy rain", &owm11d_64px, &owm11n_64px },
+        { "light thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "heavy thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "ragged thunderstorm", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with light drizzle", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with heavy drizzle", &owm11d_64px, &owm11n_64px },
+        { "thunderstorm with drizzle", &owm11d_64px, &owm11n_64px },
+        { "snow", &owm13d_64px, &owm13n_64px },
+        { "light snow", &owm13d_64px, &owm13n_64px },
+        { "heavy snow", &owm13d_64px, &owm13n_64px },
+        { "sleet", &owm13d_64px, &owm13n_64px },
+        { "light shower sleet", &owm13d_64px, &owm13n_64px },
+        { "shower sleet", &owm13d_64px, &owm13n_64px },
+        { "light rain and snow", &owm13d_64px, &owm13n_64px },
+        { "rain and snow", &owm13d_64px, &owm13n_64px },
+        { "light shower snow", &owm13d_64px, &owm13n_64px },
+        { "shower snow", &owm13d_64px, &owm13n_64px },
+        { "heavy shower snow", &owm13d_64px, &owm13n_64px },
+        { "freezing rain", &owm13d_64px, &owm13n_64px },
+        { "mist", &owm50d_64px, &owm50n_64px },
+        { "smoke", &owm50d_64px, &owm50n_64px },
+        { "haze", &owm50d_64px, &owm50n_64px },
+        { "sand/ dust whirls", &owm50d_64px, &owm50n_64px },
+        { "fog", &owm50d_64px, &owm50n_64px },
+        { "sand", &owm50d_64px, &owm50n_64px },
+        { "dust", &owm50d_64px, &owm50n_64px },
+        { "volcanic ash", &owm50d_64px, &owm50n_64px },
+        { "squalls", &owm50d_64px, &owm50n_64px },
+        { "tornado", &owm50d_64px, &owm50n_64px },
         { "", NULL }
     };
 
-    lv_font_t *message_title_font = &Ubuntu_32px;
+    lv_font_t *message_title_font = &Ubuntu_16px;
     lv_font_t *message_font = &Ubuntu_16px;
 #endif
 
@@ -203,7 +409,8 @@ static void bluetooth_del_message_event_cb( lv_obj_t * obj, lv_event_t event );
 static void exit_bluetooth_message_event_cb( lv_obj_t * obj, lv_event_t event );
 static void enter_bluetooth_messages_cb( lv_obj_t * obj, lv_event_t event );
 bool bluetooth_message_event_cb( EventBits_t event, void *arg );
-const lv_img_dsc_t *bluetooth_message_find_img( const char * src_name );
+const lv_img_dsc_t *bluetooth_message_find_img_night( const char * src_name );
+const lv_img_dsc_t *bluetooth_message_find_img_day( const char * src_name );
 
 static void bluetooth_message_send_del_json( int32_t entry );
 void bluetooth_add_msg_to_chain( const char *msg );
