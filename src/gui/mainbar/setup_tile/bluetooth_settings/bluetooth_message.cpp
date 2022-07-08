@@ -923,7 +923,7 @@ void bluetooth_message_show_msg( int32_t entry ) {
                     * add special case when a weather information is set
                     */
                     int temperature = doc["temp"];
-                    wf_label_printf( bluetooth_message_msg_label, "%s / %d °C / %s", doc["loc"].as<String>().c_str(), temperature - 273, doc["txt"].as<String>().c_str() );
+                    wf_label_printf( bluetooth_message_msg_label, "%d °C and %s", temperature - 273, doc["txt"].as<String>().c_str() );
                     
                 }
                 else {
