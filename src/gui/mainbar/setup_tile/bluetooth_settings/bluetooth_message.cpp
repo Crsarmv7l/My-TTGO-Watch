@@ -690,13 +690,24 @@ void bluetooth_message_enable( void ) {
     bluetooth_message_active = true;    
 }
 
-const lv_img_dsc_t *bluetooth_message_find_img( const char * src_name ) {
+const lv_img_dsc_t *bluetooth_message_find_img_night( const char * src_name ) {
     /*
-     * search for the right src icon
+     * search for the right src icon, and test case for night
      */
-    for ( int i = 0; src_icon[ i ].img != NULL; i++ ) {
+    for ( int i = 0; src_icon[ i ].img_night != NULL; i++ ) {
         if ( strstr( src_name, src_icon[ i ].src_name ) ) {
-            return( src_icon[ i ].img );
+            log_i("hit: %s -> %s", src_name, src_icon[ i ].src_name );
+            return( src_icon[ i ].img_night );
+        }
+    }
+    return( default_msg_icon );
+}
+
+const lv_img_dsc_t *bluetooth_message_find_img_day( const char * src_name ) {
+ for ( int i = 0; src_icon[ i ].img_day != NULL; i++ ) {
+        if ( strstr( src_name, src_icon[ i ].src_name ) ) {
+            log_i("hit: %s -> %s", src_name, src_icon[ i ].src_name );
+            return( src_icon[ i ].img_day );
         }
     }
     return( default_msg_icon );
@@ -851,6 +862,14 @@ void bluetooth_message_show_msg( int32_t entry ) {
     }
     else {
         /*
+         * if msg a weather message destroy weather widget for icon sourcing
+         */
+        if (!strcmp( doc["t"], "weather" ) ) {
+            if ( doc["txt"] ) {
+                weather_widget = widget_remove( weather_widget );
+            }
+        }
+        /*
          * if msg an notify msg?
          */
         if( doc.containsKey("t" ) ) {
@@ -874,6 +893,17 @@ void bluetooth_message_show_msg( int32_t entry ) {
                     lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img( doc["src"] ) ); 
                     lv_label_set_text( bluetooth_message_notify_source_label, doc["src"] );
                 }
+                else if ( doc["txt"] ) {
+                    if ( h < 7 || h > 18 ) {
+                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_night( doc["txt"] ) ); 
+                     }
+                else {
+                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_day( doc["txt"] ) );
+                    }
+
+                lv_label_set_text( bluetooth_message_notify_source_label,  doc["loc"].as<String>().c_str() );
+                lv_obj_align( bluetooth_message_notify_source_label, bluetooth_message_img, LV_ALIGN_OUT_RIGHT_MID, 0, 0 );
+                }
                 else {
                     lv_img_set_src( bluetooth_message_img, default_msg_icon );
                     lv_label_set_text( bluetooth_message_notify_source_label, "Message" );
@@ -893,7 +923,8 @@ void bluetooth_message_show_msg( int32_t entry ) {
                     * add special case when a weather information is set
                     */
                     int temperature = doc["temp"];
-                    wf_label_printf( bluetooth_message_msg_label, "%s / %d °C / %s", doc["loc"].as<String>().c_str(), temperature - 273, doc["txt"].as<String>().c_str() );
+                    wf_label_printf( bluetooth_message_msg_label, "%d °C and %s", temperature - 273, doc["txt"].as<String>().c_str() );
+                    
                 }
                 else {
                     lv_label_set_text( bluetooth_message_msg_label, "" );
