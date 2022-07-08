@@ -187,7 +187,9 @@ void blectl_setup( void ) {
         /**
          *  Create the BLE Device
          */
-        NimBLEDevice::init( "Bangle.js" );
+        char deviceName[ 64 ];
+        snprintf( deviceName, sizeof( deviceName ), "Espruino (%s)", device_get_name() );
+        NimBLEDevice::init( deviceName );
         /*
          * set power level from config
          */
