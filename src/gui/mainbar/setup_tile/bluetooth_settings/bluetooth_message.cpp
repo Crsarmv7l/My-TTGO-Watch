@@ -890,7 +890,7 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 * set notify source icon if msg src known
                 */
                 if ( doc.containsKey("src") ) {
-                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img( doc["src"] ) ); 
+                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_day( doc["src"] ) ); 
                     lv_label_set_text( bluetooth_message_notify_source_label, doc["src"] );
                 }
                 else if ( doc["txt"] ) {
@@ -903,6 +903,7 @@ void bluetooth_message_show_msg( int32_t entry ) {
 
                 lv_label_set_text( bluetooth_message_notify_source_label,  doc["loc"].as<String>().c_str() );
                 lv_obj_align( bluetooth_message_notify_source_label, bluetooth_message_img, LV_ALIGN_OUT_RIGHT_MID, 0, 0 );
+                
                 }
                 else {
                     lv_img_set_src( bluetooth_message_img, default_msg_icon );
@@ -918,13 +919,21 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 else if ( doc.containsKey("title") ) {
                     lv_label_set_text( bluetooth_message_msg_label, doc["title"] );
                 }
-                else if ( doc.containsKey("temp") && doc.containsKey("loc") && doc.containsKey("txt") ) {
+                else if ( doc.containsKey("temp") ) {
                     /*
                     * add special case when a weather information is set
                     */
+                    if ( weather_widget == NULL ) {
+                    if ( h < 7 || h > 18 ) {
+                    weather_widget = widget_register( "weather", bluetooth_message_find_img_night( doc["txt"]), NULL); 
+                    }
+                    else {
+                    weather_widget = widget_register( "weather", bluetooth_message_find_img_day( doc["txt"]), NULL);
+                    }
+                }
                     int temperature = doc["temp"];
                     wf_label_printf( bluetooth_message_msg_label, "%d °C and %s", temperature - 273, doc["txt"].as<String>().c_str() );
-                    
+                    wf_label_printf( weather_widget->label, "%d °C", temperature - 273);
                 }
                 else {
                     lv_label_set_text( bluetooth_message_msg_label, "" );
