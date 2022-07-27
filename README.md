@@ -3,14 +3,13 @@ A fork of Sharandac's excellent firmware.
 Attempt to get my original branch and modifications working with android.
 
 
-Currently Supported Features:
+Should be supported once I fix it:
 - Call notification
 - Txt notification
 - Email notification
 - Chat app notification
 - Weather notification
-- Weather widget via Amazfish weather messages 
-     - Modified Amazfish to send on connect twice an hour. If you want my version just ask.
+- BLE Weather widget 
 - Experimental deauth attack in wifi settings. Enable the right switch (turns on normal wifi), then turn on left switch. Then select AP target. Deauth continues until the left switch is turned off.
      - Deauth Notes: Deauth gets all information from the selected target AP's beacon packet and is triggered by said packets. (This deauth is broadcast, not        client specific, it should be easy to look at the code and add another if statement in the promiscuous filt that kicks in after first_run, filtering by          destination BSSID/MAC, if to the AP, pull the sender address and insert into the Dest address on the deauth packet and send).
      - Normal wifi usage is not affected (just use right switch alone). I haven't really tested deauth/beacon spam with a saved network, but I wanted to keep        normal usage incase ftp access is needed. I recommend deleting the network after ftp usage to ensure there are no issues.
@@ -19,11 +18,7 @@ Currently Supported Features:
 - AP Beacon Spam. Turn on wifi in settings with the right switch. Go into the subsettings and turn on the beacon spam switch. Beacon spam continues until turned off. This is a straight integration of the Beacon Spam found here: https://github.com/justcallmekoko/ESP32Marauder/ with minimal enhancements. 
      - Unlike deauth, beacon spam isn't triggered by a specific packet. Maybe I will dig more into triggering on a probe request, but the packet building will        need to speed up substantially. It simply builds and sends beacon packets constantly.
 
-Can Work, but doesn't:
-- Music Control IS implimented in Amazfish, but I have little interest in fixing it to work. Maybe in the future.
-- Step sync via message (dunno why it isn't working really)
-- Battery sync same as above. Battery UUID is correct, battery message has the correct triggers but amazfish isn't reading it. Might be formatting?
-  - Due to the above, both Step sync and Battery level were removed
+Both Step sync and Battery level were removed
 
 # DISCLAIMER: 
 This is very much a work in progress and my coding isn't fantastic or elegant. I take no responsiility for any damage caused by you running this firmware. It shouldn't damage anything, but if you are concerned feel free to go through the code. I run this firmware myself on a TTGO T-watch 2020 v1 with Amazfish 2.0.3 on SailfishOS 4.2.
