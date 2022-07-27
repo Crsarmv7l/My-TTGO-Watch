@@ -40,6 +40,7 @@
 #else
     #include <Arduino.h>
     #include <WiFi.h>
+    #include <esp_wifi.h>
 #endif
 
 lv_obj_t *wifi_settings_tile=NULL;
