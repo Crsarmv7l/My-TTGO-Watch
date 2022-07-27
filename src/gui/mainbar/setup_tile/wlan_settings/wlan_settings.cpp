@@ -30,6 +30,7 @@
 #include "gui/widget_styles.h"
 #include "hardware/wifictl.h"
 #include "hardware/motor.h"
+#include "hardware/display.h"
 #include "hardware/ble/gadgetbridge.h"
 #include "utils/bluejsonrequest.h"
 #include "utils/webserver/webserver.h"
