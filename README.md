@@ -1,11 +1,6 @@
 A fork of Sharandac's excellent firmware. 
 
-This port is adapted to work with Adam Piggz's Amazfish companion app on linux phone distros via the Bangle.js device type. Specifically by utilizing UART UUID's, the Bangle.js name, and expected services. On the Amazfish side the Bangle.js name along with service discovery returns pinetimejfdevice (as it should for Bangle.js), and it works through devicefactory.cpp.
-
-Amazfish:
-https://github.com/piggz/harbour-amazfish
-
-Further modifications are to optimize the layout with the information provided by Amazfish. See here for further ref (https://github.com/piggz/harbour-amazfish/blob/master/daemon/src/devices/banglejsdevice.cpp)
+Attempt to get my original branch and modifications working with android.
 
 
 Currently Supported Features:
