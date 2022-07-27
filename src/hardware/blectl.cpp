@@ -248,7 +248,7 @@ void blectl_setup( void ) {
          * This is too long I think:
          * BLEDevice::init("Espruino Gadgetbridge Compatible Device");
          */
-        BLEDevice::init("Bangle.js" );
+        BLEDevice::init("Espruino (T-Watch2020V1)" );
         /*
          * The minimum power level (-12dbm) ESP_PWR_LVL_N12 was too low
          */
