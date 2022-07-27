@@ -768,9 +768,9 @@ void bluetooth_message_show_msg( int32_t entry ) {
             /*
              * set notify source icon if msg src known, set weather widget (if weather) based on txt description, set Notify Source label to weather location if weather
              */
-            if ( doc["subject"] ) {
+            if ( doc["src"] ) {
                 lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_day( doc["src"] ) ); 
-                lv_label_set_text( bluetooth_message_notify_source_label, doc["subject"] );
+                lv_label_set_text( bluetooth_message_notify_source_label, doc["src"] );
             }
             else if ( doc["txt"] ) {
                 if ( h < 7 || h > 18 ) {
@@ -793,6 +793,9 @@ void bluetooth_message_show_msg( int32_t entry ) {
              */
             if ( doc["body"] ) {
                 lv_label_set_text( bluetooth_message_msg_label, doc["body"] );
+            }
+            else if ( doc["title"] ) {
+                lv_label_set_text( bluetooth_message_msg_label, doc["title"] );
             }
             else if ( doc["temp"] ) {
                 /*
@@ -836,7 +839,10 @@ void bluetooth_message_show_msg( int32_t entry ) {
             /*
              * set sender label from available source
              */
-            if ( doc["sender"] ) {
+            if ( doc["title"] ) {
+                lv_label_set_text( bluetooth_message_sender_label, doc["title"] );
+            }
+            else if ( doc["sender"] ) {
                 lv_label_set_text( bluetooth_message_sender_label, doc["sender"] );
             }
             else if( doc["tel"] ) {
