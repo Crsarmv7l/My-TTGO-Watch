@@ -4,7 +4,7 @@ Attempt to get my original branch and modifications working with android and Gad
 
 There are two problems with gadgetbridge that make things more difficult:
 1. Gadgetbridge does not cache notifications and send on connect, it assumes BLE is always on. Hence in The Bluetooth setting you MUST have "Stay on" enabled (maybe "Always on" as well).
-2. Call notification is broken in Gadgetbridge for the Bangle, which we are emulating. I can see from serial logging that a message is sent. I will try and make it work with that.
+2. Call notification is broken in Gadgetbridge for the Bangle, which we are emulating. I can see from serial logging that a message is sent and recieved. I will try and make it work with that.
 
 Should be supported once I fix it:
 - Call notification
