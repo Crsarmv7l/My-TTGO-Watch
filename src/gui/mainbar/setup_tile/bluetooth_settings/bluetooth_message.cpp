@@ -233,7 +233,7 @@ LV_IMG_DECLARE(message_96px);
         { "Scattered clouds", &owm03d_64px, &owm03n_64px },
         { "Overcast clouds", &owm04d_64px, &owm04n_64px },
         { "Broken clouds", &owm04d_64px, &owm04n_64px },
-        { "Shower rain", &owm09d_64px,, &owm09n_64px },
+        { "Shower rain", &owm09d_64px, &owm09n_64px },
         { "Light intensity drizzle", &owm09d_64px, &owm09n_64px },
         { "Drizzle", &owm09d_64px, &owm09n_64px },
         { "Heavy intensity drizzle", &owm09d_64px, &owm09n_64px },
