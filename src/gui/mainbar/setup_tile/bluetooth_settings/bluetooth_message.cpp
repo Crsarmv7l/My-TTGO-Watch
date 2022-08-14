@@ -755,7 +755,7 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 lv_label_set_text( bluetooth_message_notify_source_label, doc["loc"].as<String>().c_str() );
                 lv_obj_align( bluetooth_message_notify_source_label, bluetooth_message_img, LV_ALIGN_OUT_RIGHT_MID, 0, 0 );
                 lv_label_set_text( bluetooth_message_sender_label, "Weather" );
-                
+              
                 int temperature = doc["temp"];
                 int conversion = (((9*temperature - 2457)/5) +32);
                 const char temp_str[128] = "";
@@ -770,6 +770,9 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 lv_label_set_align( wx_widget->label, LV_LABEL_ALIGN_CENTER );
                 lv_obj_set_hidden( wx_widget->icon_indicator, true );
             }
+            lv_obj_set_hidden(bluetooth_message_trash_msg_btn,true);
+            lv_obj_set_hidden(bluetooth_message_prev_msg_btn,true);
+            lv_obj_set_hidden(bluetooth_message_next_msg_btn,true);
             bluetooth_delete_msg_from_chain( entry );
         }
         /*
