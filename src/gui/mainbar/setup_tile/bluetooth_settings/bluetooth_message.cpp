@@ -773,6 +773,7 @@ void bluetooth_message_show_msg( int32_t entry ) {
             lv_obj_set_hidden(bluetooth_message_trash_msg_btn,true);
             lv_obj_set_hidden(bluetooth_message_prev_msg_btn,true);
             lv_obj_set_hidden(bluetooth_message_next_msg_btn,true);
+            lv_obj_set_hidden(bluetooth_message_entrys_label,true);
             bluetooth_delete_msg_from_chain( entry );
         }
         /*
