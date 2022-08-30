@@ -11,8 +11,7 @@ Fork of Sharandac's firmware.
   - Enable the right switch (turns on normal wifi), then turn on left switch. Then select AP target. Deauth continues until the left switch is turned off.
   - Deauth Notes: Deauth gets all information from the selected target AP's beacon packet and is triggered by said packets. (This deauth is broadcast, not
     client specific.
-  - Normal wifi usage is not affected (just use right switch alone). I haven't really tested deauth/beacon spam with a saved network, but I wanted to keep    
-    normal usage incase ftp access is needed. 
+  - Normal wifi usage is not affected (just use right switch alone). I haven't really tested deauth/beacon spam with a saved network, but I wanted to keep   normal usage incase ftp access is needed. 
   - Deauth based on the works of many people, but in particular the ESP32 Marauder Project found here: https://github.com/justcallmekoko/ESP32Marauder/
   - Enhancements and trigger is my own work
 
