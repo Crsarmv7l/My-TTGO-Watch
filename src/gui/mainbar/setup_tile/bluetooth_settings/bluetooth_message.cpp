@@ -730,57 +730,11 @@ void bluetooth_message_show_msg( int32_t entry ) {
         log_e("bluetooth message deserializeJson() failed: %s", error.c_str() );
     }
     else {
-
-        if (!strcmp( doc["t"], "weather" ) ) {
-
-            if ( doc["txt"] ) {
-                wx_widget = widget_remove( wx_widget );
-                
-                struct tm info;
-                char timestamp[16]="";
-                localtime_r( msg_chain_get_msg_timestamp_entry( bluetooth_msg_chain, entry ), &info );
-                int h = info.tm_hour;
-                int m = info.tm_min;
-                snprintf( timestamp, sizeof( timestamp ), "%02d:%02d", h, m );
-                lv_label_set_text( bluetooth_message_time_label, timestamp );
-
-                if ( h < 7 || h > 18 ) {
-                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_night( doc["txt"] ) );
-                    wx_widget = widget_register( "weather", bluetooth_message_find_img_night( doc["txt"]), NULL); 
-                    }
-                    else {
-                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_day( doc["txt"] ) );
-                    wx_widget = widget_register( "weather", bluetooth_message_find_img_day( doc["txt"]), NULL);
-                    }
-                lv_label_set_text( bluetooth_message_notify_source_label, doc["loc"].as<String>().c_str() );
-                lv_obj_align( bluetooth_message_notify_source_label, bluetooth_message_img, LV_ALIGN_OUT_RIGHT_MID, 0, 0 );
-                lv_label_set_text( bluetooth_message_sender_label, "Weather" );
-              
-                int temperature = doc["temp"];
-                int conversion = (((9*temperature - 2457)/5) +32);
-                const char temp_str[128] = "";
-                const char conv_str[64] = "";
-
-                snprintf( (char*)temp_str, sizeof( temp_str ), "%d°F and %s",  conversion, doc["txt"].as<String>().c_str() );
-                lv_label_set_text( bluetooth_message_msg_label, temp_str );
-
-                snprintf((char*)conv_str, sizeof( conv_str ), "%d°F", conversion);
-                lv_label_set_text( wx_widget->label, conv_str );
-                lv_obj_align( wx_widget->label , wx_widget->icon_cont, LV_ALIGN_IN_BOTTOM_MID, 0, 0 );
-                lv_label_set_align( wx_widget->label, LV_LABEL_ALIGN_CENTER );
-                lv_obj_set_hidden( wx_widget->icon_indicator, true );
-            }
-            lv_obj_set_hidden(bluetooth_message_trash_msg_btn,true);
-            lv_obj_set_hidden(bluetooth_message_prev_msg_btn,true);
-            lv_obj_set_hidden(bluetooth_message_next_msg_btn,true);
-            lv_obj_set_hidden(bluetooth_message_entrys_label,true);
-            bluetooth_delete_msg_from_chain( entry );
-        }
         /*
          * if msg an notify msg?
          */
         if( doc.containsKey("t" ) ) {
-            if( !strcmp( doc["t"], "notify" )) {
+            if( !strcmp( doc["t"], "notify" ) || !strcmp( doc["t"], "weather" ) ) {
                 /*
                 * set the receive time string
                 */
@@ -800,6 +754,21 @@ void bluetooth_message_show_msg( int32_t entry ) {
                     lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_day( doc["src"] ) ); 
                     lv_label_set_text( bluetooth_message_notify_source_label, doc["src"] );
                 }
+                else if ( doc.containsKey("txt") ) {
+
+                    wx_widget = widget_remove( wx_widget );
+
+                    if ( h < 7 || h > 18 ) {
+                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_night( doc["txt"] ) );
+                    wx_widget = widget_register( "weather", bluetooth_message_find_img_night( doc["txt"]), NULL); 
+                    }
+                    else {
+                    lv_img_set_src( bluetooth_message_img, bluetooth_message_find_img_day( doc["txt"] ) );
+                    wx_widget = widget_register( "weather", bluetooth_message_find_img_day( doc["txt"]), NULL);
+                    }
+                    lv_label_set_text( bluetooth_message_notify_source_label, doc["loc"].as<String>().c_str() );
+                    lv_obj_align( bluetooth_message_notify_source_label, bluetooth_message_img, LV_ALIGN_OUT_RIGHT_MID, 0, 0 );
+                }
                 else {
                     lv_img_set_src( bluetooth_message_img, default_msg_icon );
                     lv_label_set_text( bluetooth_message_notify_source_label, "Message" );
@@ -813,6 +782,22 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 }
                 else if ( doc.containsKey("title") ) {
                     lv_label_set_text( bluetooth_message_msg_label, doc["title"] );
+                }
+                else if( doc.containsKey("temp")){
+                    int temperature = doc["temp"];
+                    int conversion = (((9*temperature - 2457)/5) +32);
+                    const char temp_str[128] = "";
+                    const char conv_str[64] = "";
+
+                    snprintf( (char*)temp_str, sizeof( temp_str ), "%d°F and %s",  conversion, doc["txt"].as<String>().c_str() );
+                    lv_label_set_text( bluetooth_message_msg_label, temp_str );
+
+                    snprintf((char*)conv_str, sizeof( conv_str ), "%d°F", conversion);
+                    lv_label_set_text( wx_widget->label, conv_str );
+                    lv_obj_align( wx_widget->label , wx_widget->icon_cont, LV_ALIGN_IN_BOTTOM_MID, 0, 0 );
+                    lv_label_set_align( wx_widget->label, LV_LABEL_ALIGN_CENTER );
+                    lv_obj_set_hidden( wx_widget->icon_indicator, true );
+                    
                 }
                 else {
                     lv_label_set_text( bluetooth_message_msg_label, "" );
@@ -834,6 +819,14 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 }
                 else if( doc.containsKey("tel") ) {
                     lv_label_set_text( bluetooth_message_sender_label, doc["tel"] );
+                }
+                else if(doc.containsKey("loc")){
+                    lv_label_set_text( bluetooth_message_sender_label, "Weather" );
+
+                    lv_obj_set_hidden(bluetooth_message_prev_msg_btn,true);
+                    lv_obj_set_hidden(bluetooth_message_next_msg_btn,true);
+                    lv_obj_set_hidden(bluetooth_message_entrys_label,true);
+                    bluetooth_delete_msg_from_chain( entry );
                 }
                 else {
                     lv_label_set_text( bluetooth_message_sender_label, "n/a" );
