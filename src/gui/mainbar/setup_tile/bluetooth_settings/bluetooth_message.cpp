@@ -813,28 +813,53 @@ void bluetooth_message_show_msg( int32_t entry ) {
                 */
                 if ( doc.containsKey("title") ) {
                     lv_label_set_text( bluetooth_message_sender_label, doc["title"] );
+
+                    lv_obj_set_hidden(bluetooth_message_trash_msg_btn, false);
+                    lv_obj_set_hidden(bluetooth_message_prev_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_next_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_entrys_label,false);
                 }
                 else if ( doc.containsKey("sender") ) {
                     lv_label_set_text( bluetooth_message_sender_label, doc["sender"] );
+
+                    lv_obj_set_hidden(bluetooth_message_trash_msg_btn, false);
+                    lv_obj_set_hidden(bluetooth_message_prev_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_next_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_entrys_label,false);
                 }
                 else if( doc.containsKey("tel") ) {
                     lv_label_set_text( bluetooth_message_sender_label, doc["tel"] );
+
+                    lv_obj_set_hidden(bluetooth_message_trash_msg_btn, false);
+                    lv_obj_set_hidden(bluetooth_message_prev_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_next_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_entrys_label,false);
                 }
                 else if(doc.containsKey("loc")){
                     lv_label_set_text( bluetooth_message_sender_label, "Weather" );
 
+                    lv_obj_set_hidden(bluetooth_message_trash_msg_btn, true);
                     lv_obj_set_hidden(bluetooth_message_prev_msg_btn,true);
                     lv_obj_set_hidden(bluetooth_message_next_msg_btn,true);
                     lv_obj_set_hidden(bluetooth_message_entrys_label,true);
-                    bluetooth_delete_msg_from_chain( entry );
+                    bluetooth_message_send_del_json( entry );
+                    msg_chain_delete_msg_entry( bluetooth_msg_chain, entry );
+
                 }
                 else {
                     lv_label_set_text( bluetooth_message_sender_label, "n/a" );
+
+                    lv_obj_set_hidden(bluetooth_message_trash_msg_btn, false);
+                    lv_obj_set_hidden(bluetooth_message_prev_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_next_msg_btn,false);
+                    lv_obj_set_hidden(bluetooth_message_entrys_label,false);
                 }
                 /*
                 * trigger invalidate to redraw all information
                 */
+                
                 lv_obj_invalidate( lv_scr_act() );
+            
             }
         }
     }        
